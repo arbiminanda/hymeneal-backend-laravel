@@ -14,3 +14,11 @@ Route::post('/register', App\Http\Controllers\Api\RegisterController::class)->na
  * @method "POST"
  */
 Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
+
+/**
+ * route "/user"
+ * @method "GET"
+ */
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
