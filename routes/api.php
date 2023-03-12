@@ -20,3 +20,12 @@ Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('lo
  * @method "GET"
  */
 Route::middleware('auth:api')->get('/user', App\Http\Controllers\Api\UserController::class)->name('user');
+
+/**
+ * route group "/confirmation"
+ * @method "GET, POST, PUT, DELETE"
+ */
+Route::prefix('/confirmation')->group(function () {
+    Route::get('', [App\Http\Controllers\Api\ConfirmationController::class,'index']);
+    Route::post('', [App\Http\Controllers\Api\ConfirmationController::class,'create']);
+});
