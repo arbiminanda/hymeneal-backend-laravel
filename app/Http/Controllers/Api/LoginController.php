@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -35,6 +36,15 @@ class LoginController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Email atau Password Anda salah'
+            ], 401);
+        }
+
+        //if account not verified
+        $verificationStatus = User::where("email", $request->input("email"))->firstOrFail();
+        if ($verificationStatus -> verified_at == null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun anda belum diverifikasi. Silakan hubungi pengelola website untuk melakukan verifikasi akun.'
             ], 401);
         }
 
