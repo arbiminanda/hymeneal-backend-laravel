@@ -19,6 +19,4 @@ Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('lo
  * route "/user"
  * @method "GET"
  */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:api')->get('/user', App\Http\Controllers\Api\UserController::class)->name('user');
