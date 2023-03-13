@@ -64,5 +64,13 @@ class ConfirmationController extends Controller
             'message'   => 'Konfirmasi gagal, silakan coba kembali atau hubungi pengelola website.',
         ], 409);
     }
+
+    public function delete($id)
+    {
+        Confirmation::where('id', $id)->delete();
+        return response()->json([
+            'message'   => 'Berhasil menghapus konfirmasi.',  
+        ], 204);
+    }
 }
 
