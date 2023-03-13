@@ -9,9 +9,22 @@ use Illuminate\Support\Facades\Validator;
 
 class ConfirmationController extends Controller
 {
+    public function greetings()
+    {
+        $confirmation = Confirmation::get(['id', 'name', 'greetings']);
+        return response()->json([
+            'data'      => $confirmation,
+            'message'   => 'Berhasil mendapatkan data seluruh konfirmasi.',  
+        ], 200);
+    }
+
     public function index()
     {
-        
+        $confirmation = Confirmation::all();
+        return response()->json([
+            'data'      => $confirmation,
+            'message'   => 'Berhasil mendapatkan seluruh salam hangat.',  
+        ], 200);
     }
 
     public function create(Request $request)

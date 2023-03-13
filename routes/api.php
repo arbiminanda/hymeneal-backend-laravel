@@ -26,6 +26,12 @@ Route::middleware('auth:api')->get('/user', App\Http\Controllers\Api\UserControl
  * @method "GET, POST, PUT, DELETE"
  */
 Route::prefix('/confirmation')->group(function () {
-    Route::get('', [App\Http\Controllers\Api\ConfirmationController::class,'index']);
+    Route::middleware('auth:api')->get('', [App\Http\Controllers\Api\ConfirmationController::class,'index']);
     Route::post('', [App\Http\Controllers\Api\ConfirmationController::class,'create']);
 });
+
+/**
+ * route "/greetings"
+ * @method "GET"
+ */
+Route::get('/greetings', [App\Http\Controllers\Api\ConfirmationController::class,'greetings'])->name('greetings');
