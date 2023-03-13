@@ -28,6 +28,7 @@ Route::middleware('auth:api')->get('/user', App\Http\Controllers\Api\UserControl
 Route::prefix('/confirmation')->group(function () {
     Route::middleware('auth:api')->get('', [App\Http\Controllers\Api\ConfirmationController::class,'index']);
     Route::post('', [App\Http\Controllers\Api\ConfirmationController::class,'create']);
+    Route::middleware('auth:api')->put('/{id}', [App\Http\Controllers\Api\ConfirmationController::class,'update']);
     Route::middleware('auth:api')->delete('/{id}', [App\Http\Controllers\Api\ConfirmationController::class,'delete']);
 });
 

@@ -14,7 +14,7 @@ class ConfirmationController extends Controller
         $confirmation = Confirmation::get(['id', 'name', 'greetings']);
         return response()->json([
             'data'      => $confirmation,
-            'message'   => 'Berhasil mendapatkan data seluruh konfirmasi.',  
+            'message'   => 'Berhasil mendapatkan seluruh salam hangat.',  
         ], 200);
     }
 
@@ -23,7 +23,7 @@ class ConfirmationController extends Controller
         $confirmation = Confirmation::all();
         return response()->json([
             'data'      => $confirmation,
-            'message'   => 'Berhasil mendapatkan seluruh salam hangat.',  
+            'message'   => 'Berhasil mendapatkan data seluruh konfirmasi.',  
         ], 200);
     }
 
@@ -63,6 +63,21 @@ class ConfirmationController extends Controller
             'success' => false,
             'message'   => 'Konfirmasi gagal, silakan coba kembali atau hubungi pengelola website.',
         ], 409);
+    }
+
+    public function update($id, Request $request)
+    {
+        Confirmation::where('id', $id)->update([
+            'name'      => $request->name,
+            'greetings' => $request->greetings,
+            'presences' => $request->presences,
+            'amount'    => $request->amount,
+        ]);
+        $confirmation = Confirmation::all();
+        return response()->json([
+            'data'      => $confirmation,
+            'message'   => 'Berhasil memperbarui konfirmasi.',  
+        ], 201);
     }
 
     public function delete($id)
