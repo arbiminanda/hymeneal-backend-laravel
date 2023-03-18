@@ -13,8 +13,12 @@ class ConfirmationController extends Controller
     {
         $useQueryParam = false;
         $sort_value = $request->query("sort");
-        if ($request->query("sort") == 'desc') {
-            $confirmation = Confirmation::orderBy('id','desc')->get(['id', 'name', 'greetings']);
+        if (!empty($sort_value)) {
+            if ($sort_value == 'desc') {
+                $confirmation = Confirmation::orderBy('id','desc')->get(['id', 'name', 'greetings']);
+            } elseif ($sort_value == 'random') {
+                $confirmation = Confirmation::inRandomOrder()->get(['id', 'name', 'greetings']);
+            }
             $useQueryParam = true;
         }
         if ($useQueryParam == false) {
@@ -39,7 +43,7 @@ class ConfirmationController extends Controller
             $useQueryParam = true;
         }
         if ($useQueryParam == false) {
-            $confirmation = Confirmation::all();
+            $confirmation = Confirmation::where('name','LIKE','%'.$search_value.'%')->get();
         }
         return response()->json([
             'data'      => $confirmation,
