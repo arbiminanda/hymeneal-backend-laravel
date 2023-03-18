@@ -11,9 +11,14 @@ class ConfirmationController extends Controller
 {
     public function greetings(Request $request)
     {
-        $confirmation = Confirmation::get(['id', 'name', 'greetings']);
+        $useQueryParam = false;
+        $sort_value = $request->query("sort");
         if ($request->query("sort") == 'desc') {
             $confirmation = Confirmation::orderBy('id','desc')->get(['id', 'name', 'greetings']);
+            $useQueryParam = true;
+        }
+        if ($useQueryParam == false) {
+            $confirmation = Confirmation::get(['id', 'name', 'greetings']);
         }
         return response()->json([
             'data'      => $confirmation,
@@ -23,9 +28,18 @@ class ConfirmationController extends Controller
 
     public function index(Request $request)
     {
-        $confirmation = Confirmation::all();
-        if ($request->query("sort") == 'desc') {
-            $confirmation = Confirmation::orderBy('id','desc')->get();;
+        $useQueryParam = false;
+        $search_value = $request->query("search_name");
+        $sort_value = $request->query("sort");
+        if (!empty($search_value) or !empty($sort_value)) {
+            $confirmation = Confirmation::where('name','LIKE','%'.$search_value.'%')->get();
+            if ($sort_value == 'desc') {
+                $confirmation = Confirmation::orderBy('id','desc')->get();    
+            }
+            $useQueryParam = true;
+        }
+        if ($useQueryParam == false) {
+            $confirmation = Confirmation::all();
         }
         return response()->json([
             'data'      => $confirmation,
