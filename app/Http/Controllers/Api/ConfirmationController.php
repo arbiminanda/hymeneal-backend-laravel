@@ -9,18 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class ConfirmationController extends Controller
 {
-    public function greetings()
+    public function greetings(Request $request)
     {
         $confirmation = Confirmation::get(['id', 'name', 'greetings']);
+        if ($request->query("sort") == 'desc') {
+            $confirmation = Confirmation::orderBy('id','desc')->get(['id', 'name', 'greetings']);
+        }
         return response()->json([
             'data'      => $confirmation,
             'message'   => 'Berhasil mendapatkan seluruh salam hangat.',  
         ], 200);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $confirmation = Confirmation::all();
+        if ($request->query("sort") == 'desc') {
+            $confirmation = Confirmation::orderBy('id','desc')->get();;
+        }
         return response()->json([
             'data'      => $confirmation,
             'message'   => 'Berhasil mendapatkan data seluruh konfirmasi.',  
