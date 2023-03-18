@@ -33,13 +33,20 @@ class ConfirmationController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'required|unique:confirmations',
             'greetings' => 'required',
-            'presences'  => 'in:yes,no',
-            'amount'  => 'in:1,2',
+            'presences'  => ['required', 'in:yes,no'],
+            'amount'  => 'required_if:presences,=,yes',
         ]);
-
+        
         //if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
+        }
+
+        //validation if presences input is yes
+        if (($request->input("presences") == 'yes') and (!in_array($request->input("amount"), array("1", "2")))) {
+            return response()->json([
+                'message' => 'Amount field is required and value should be 1 or 2'
+            ], 422);
         }
 
         //create user
